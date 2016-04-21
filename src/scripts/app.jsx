@@ -162,7 +162,7 @@ class App extends React.Component {
                     </main>
 
                     <Paper zDepth={0} rounded={false} style={footerStyle}>
-                        <p>&copy; 2015 <a href="https://github.com/aspyatkin" target="_blank" style={linkStyle}>Alexander Pyatkin</a>. Crafted with passion in Samara, Russia.</p>
+                        <p>&copy; {(new Date()).getFullYear()} <a href="https://github.com/aspyatkin" target="_blank" style={linkStyle}>Alexander Pyatkin</a>. Crafted in Samara, Russia.</p>
                         <p>Find this on <a href="https://github.com/aspyatkin/themis-finals" target="_blank" style={linkStyle}>GitHub</a></p>
                     </Paper>
                 </section>
