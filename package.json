@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "check": "npm-check -u"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "material-ui": "^0.11.0",
     "moment": "^2.10.6",
     "normalize.css": "^3.0.3",
+    "npm-check": "^5.2.1",
     "numeral": "^1.5.3",
     "react": "^0.13.3",
     "react-document-title": "^1.0.3",
