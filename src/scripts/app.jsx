@@ -97,12 +97,13 @@ class App extends React.Component {
 
         let tabStyle = {
             height: 64,
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: Customize.headerColor
         }
 
         let headerContainerStyle = {
             position: 'absolute',
-            width: 300,
+            width: 360,
             left: Styles.Spacing.desktopGutter
         }
 
@@ -141,12 +142,22 @@ class App extends React.Component {
         }
 
         let title = Customize.contestTitle
+        let logo = Customize.contestLogo
 
         return (
             <DocumentTitle title={title}>
                 <section>
                     <Paper zDepth={0} rounded={false} style={rootStyles}>
                         <div style={headerContainerStyle}>
+                            {
+                                (() => {
+                                    if (logo.dist) {
+                                        return <img src={logo.dist} style={logo.style}/>
+                                    } else {
+                                        return null
+                                    }
+                                })()
+                            }
                             <a style={spanStyle} onTouchTap={this.onNavigateMain}>{title}</a>
                         </div>
                         <div style={containerStyles}>

@@ -23,9 +23,14 @@ var paths = {
     styles: [
         'node_modules/normalize.css/normalize.css',
         'src/styles/app.css'
+    ],
+    images: [
     ]
 }
 
+if (Customize.contestLogo && Customize.contestLogo.src) {
+    paths.images.push(Customize.contestLogo.src)
+}
 
 function isProduction() {
     return process.env['NODE_ENV'] === 'production';
@@ -78,4 +83,15 @@ gulp.task('styles', ['clean_styles'], () => {
 })
 
 
-gulp.task('default', ['html', 'scripts', 'styles'])
+gulp.task('clean_images', (callback) => {
+  del(['build/assets/images/*'], callback)
+})
+
+
+gulp.task('images', ['clean_images'], () => {
+  gulp
+    .src(paths.images)
+    .pipe(gulp.dest('build/assets/images'))
+})
+
+gulp.task('default', ['html', 'scripts', 'styles', 'images'])
