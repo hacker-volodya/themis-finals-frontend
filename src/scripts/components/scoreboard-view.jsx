@@ -132,8 +132,8 @@ export default class ScoreboardView extends React.Component {
             let attackPoints = teamScore ? teamScore.attackPoints : 0
             let defencePoints = teamScore ? teamScore.defencePoints : 0
 
-            let attackScore = (maxAttackPoints < 0.001) ? 0 : attackPoints / maxAttackPoints
-            let defenceScore = (maxDefencePoints < 0.001) ? 0 : defencePoints / maxDefencePoints
+            let attackScore = (maxAttackPoints < 0.00001) ? 0 : attackPoints / maxAttackPoints
+            let defenceScore = (maxDefencePoints < 0.00001) ? 0 : defencePoints / maxDefencePoints
 
             let row = {
                 id: team.id,
@@ -161,7 +161,7 @@ export default class ScoreboardView extends React.Component {
         rowData = rowData.sort((row1, row2) => {
             let score1 = row1.score
             let score2 = row2.score
-            if (Math.abs(score1 - score2) < 0.001) {
+            if (Math.abs(score1 - score2) < 0.00001) {
                 let attack1 = row1.lastAttack
                 let attack2 = row2.lastAttack
 
