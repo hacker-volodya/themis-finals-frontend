@@ -14,26 +14,27 @@ class LogStore {
         }
 
         this.bindListeners({
-            handleUnshift: LogActions.UNSHIFT
+            handlePush: LogActions.PUSH
         })
 
         if (eventManager.enabled) {
             eventManager.eventSource.addEventListener('log', (e) => {
                 let data = JSON.parse(e.data)
-                LogActions.unshift(new LogModel(data))
+                data.id = parseInt(e.lastEventId, 10)
+                LogActions.push(new LogModel(data))
             })
         }
     }
 
-    handleUnshift(log) {
-        while (this.state.collection.size > 500) {
-            this.state.collection = this.state.collection.pop()
+    handlePush(log) {
+        while (this.state.collection.size > 1000) {
+            this.state.collection = this.state.collection.shift()
         }
 
         this.setState({
             loading: false,
             err: null,
-            collection: this.state.collection.unshift(log)
+            collection: this.state.collection.push(log)
         })
     }
 }

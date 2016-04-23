@@ -100,7 +100,7 @@ export default class LogView extends React.Component {
 
         return (
             <div>
-                <code>{moment(this.props.updatedAt).format('LTS')}</code>
+                <code>{moment(this.props.updatedAt).format('HH:mm:ss.SSS')}</code>
                 &nbsp;&nbsp;
                 {text}
             </div>
