@@ -27,7 +27,7 @@ class LogStore {
     }
 
     handlePush(log) {
-        while (this.state.collection.size > 1000) {
+        while (this.state.collection.size > 300) {
             this.state.collection = this.state.collection.shift()
         }
 
