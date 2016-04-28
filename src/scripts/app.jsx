@@ -151,7 +151,7 @@ class App extends React.Component {
                         <div style={headerContainerStyle}>
                             {
                                 (() => {
-                                    if (logo.dist) {
+                                    if (logo && logo.dist && logo.style) {
                                         return <img src={logo.dist} style={logo.style}/>
                                     } else {
                                         return null
