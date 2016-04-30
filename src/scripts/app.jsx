@@ -130,7 +130,7 @@ class App extends React.Component {
             color: Styles.Colors.grey400,
             position: 'absolute',
             bottom: 0,
-            height: '80px',
+            height: '85px',
             width: '100%',
             textAlign: 'center',
             fontSize: '0.9em'
