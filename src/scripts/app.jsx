@@ -97,12 +97,13 @@ class App extends React.Component {
 
         let tabStyle = {
             height: 64,
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: Customize.headerColor
         }
 
         let headerContainerStyle = {
             position: 'absolute',
-            width: 300,
+            width: 360,
             left: Styles.Spacing.desktopGutter
         }
 
@@ -129,7 +130,7 @@ class App extends React.Component {
             color: Styles.Colors.grey400,
             position: 'absolute',
             bottom: 0,
-            height: '80px',
+            height: '85px',
             width: '100%',
             textAlign: 'center',
             fontSize: '0.9em'
@@ -141,12 +142,22 @@ class App extends React.Component {
         }
 
         let title = Customize.contestTitle
+        let logo = Customize.contestLogo
 
         return (
             <DocumentTitle title={title}>
                 <section>
                     <Paper zDepth={0} rounded={false} style={rootStyles}>
                         <div style={headerContainerStyle}>
+                            {
+                                (() => {
+                                    if (logo && logo.dist && logo.style) {
+                                        return <img src={logo.dist} style={logo.style}/>
+                                    } else {
+                                        return null
+                                    }
+                                })()
+                            }
                             <a style={spanStyle} onTouchTap={this.onNavigateMain}>{title}</a>
                         </div>
                         <div style={containerStyles}>
@@ -162,7 +173,7 @@ class App extends React.Component {
                     </main>
 
                     <Paper zDepth={0} rounded={false} style={footerStyle}>
-                        <p>&copy; 2015 <a href="https://github.com/aspyatkin" target="_blank" style={linkStyle}>Alexander Pyatkin</a>. Crafted with passion in Samara, Russia.</p>
+                        <p>&copy; {(new Date()).getFullYear()} <a href="https://github.com/aspyatkin" target="_blank" style={linkStyle}>Alexander Pyatkin</a>. Crafted in Samara, Russia.</p>
                         <p>Find this on <a href="https://github.com/aspyatkin/themis-finals" target="_blank" style={linkStyle}>GitHub</a></p>
                     </Paper>
                 </section>

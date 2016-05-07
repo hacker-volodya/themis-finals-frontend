@@ -132,8 +132,8 @@ export default class ScoreboardView extends React.Component {
             let attackPoints = teamScore ? teamScore.attackPoints : 0
             let defencePoints = teamScore ? teamScore.defencePoints : 0
 
-            let attackScore = (maxAttackPoints < 0.001) ? 0 : attackPoints / maxAttackPoints
-            let defenceScore = (maxDefencePoints < 0.001) ? 0 : defencePoints / maxDefencePoints
+            let attackScore = (maxAttackPoints < 0.00001) ? 0 : attackPoints / maxAttackPoints
+            let defenceScore = (maxDefencePoints < 0.00001) ? 0 : defencePoints / maxDefencePoints
 
             let row = {
                 id: team.id,

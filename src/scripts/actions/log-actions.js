@@ -3,8 +3,8 @@ import { List } from 'immutable'
 
 
 class LogActions {
-    unshift(log) {
-        this.dispatch(log)
+    push(logs) {
+        this.dispatch(logs)
     }
 }
 

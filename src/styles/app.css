@@ -8,7 +8,6 @@ body {
 }
 
 .emoji {
-    height: 1.2em;
     vertical-align: middle
 }
 
@@ -20,7 +19,7 @@ body {
 
 .themis-table > tbody > tr > td,
 .themis-table > thead > tr > th {
-    padding: 3px;
+    padding: 6px;
     line-height: 1.4;
     vertical-align: middle;
     border-top: 1px solid #ddd
