@@ -32,6 +32,10 @@ if (Customize.contestLogo && Customize.contestLogo.src) {
     paths.images.push(Customize.contestLogo.src)
 }
 
+if (Customize.extraImages) {
+    paths.images.push(Customize.extraImages)
+}
+
 function isProduction() {
     return process.env['NODE_ENV'] === 'production';
 }
