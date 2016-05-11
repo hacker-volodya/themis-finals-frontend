@@ -33,7 +33,7 @@ if (Customize.contestLogo && Customize.contestLogo.src) {
 }
 
 if (Customize.extraImages) {
-    paths.images.push(Customize.extraImages)
+    Array.prototype.push.apply(paths.images, Customize.extraImages)
 }
 
 function isProduction() {
