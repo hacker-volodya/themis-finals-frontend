@@ -3,98 +3,96 @@ import { Dialog, FlatButton, TextField, Card, CardTitle, CardText } from 'materi
 
 import NewsActions from '../actions/news-actions'
 import MarkdownRenderer from '../utils/markdown'
-import moment from 'moment'
-
 
 export default class PostAddDialogView extends React.Component {
-    constructor(props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        this.onShow = this.onShow.bind(this)
+    this.onShow = this.onShow.bind(this)
 
-        this.onOK = this.onOK.bind(this)
-        this.onCancel = this.onCancel.bind(this)
+    this.onOK = this.onOK.bind(this)
+    this.onCancel = this.onCancel.bind(this)
 
-        this.onChangeTitle = this.onChangeTitle.bind(this)
-        this.onChangeDescription = this.onChangeDescription.bind(this)
+    this.onChangeTitle = this.onChangeTitle.bind(this)
+    this.onChangeDescription = this.onChangeDescription.bind(this)
 
-        this.state = {
-            title: '',
-            description: ''
-        }
+    this.state = {
+      title: '',
+      description: ''
+    }
+  }
+
+  onCancel () {
+    this.refs.dlg.dismiss()
+  }
+
+  onOK () {
+    NewsActions.add(this.state.title, this.state.description)
+    this.refs.dlg.dismiss()
+  }
+
+  onChangeTitle () {
+    this.setState({
+      title: this.refs.titleField.getValue()
+    })
+  }
+
+  onChangeDescription () {
+    this.setState({
+      description: this.refs.descriptionField.getValue()
+    })
+  }
+
+  start () {
+    this.setState({
+      title: '',
+      description: ''
+    })
+    this.refs.dlg.show()
+  }
+
+  onShow () {
+    this.refs.titleField.focus()
+  }
+
+  render () {
+    let actions = [
+      <FlatButton key={1} label='Cancel' secondary onTouchTap={this.onCancel} />,
+      <FlatButton key={2} label='Save' primary onTouchTap={this.onOK} />
+    ]
+
+    let descriptionFieldStyle = {
+      minHeight: '100px'
     }
 
-    onCancel() {
-        this.refs.dlg.dismiss()
+    let md = new MarkdownRenderer()
+
+    let containerStyle = {
+      display: 'flex'
     }
 
-    onOK() {
-        NewsActions.add(this.state.title, this.state.description)
-        this.refs.dlg.dismiss()
+    let formStyle = {
+      width: '50%',
+      paddingRight: '10px'
     }
 
-    onChangeTitle() {
-        this.setState({
-            title: this.refs.titleField.getValue()
-        })
+    let previewStyle = {
+      width: '50%'
     }
 
-    onChangeDescription() {
-        this.setState({
-            description: this.refs.descriptionField.getValue()
-        })
-    }
-
-    start() {
-        this.setState({
-            title: '',
-            description: ''
-        })
-        this.refs.dlg.show()
-    }
-
-    onShow() {
-        this.refs.titleField.focus()
-    }
-
-    render() {
-        let actions = [
-              <FlatButton key={1} label="Cancel" secondary={true} onTouchTap={this.onCancel}/>,
-              <FlatButton key={2} label="Save" primary={true} onTouchTap={this.onOK}/>
-        ]
-
-        let descriptionFieldStyle = {
-            minHeight: '100px'
-        }
-
-        let md = new MarkdownRenderer()
-
-        let containerStyle = {
-            display: 'flex'
-        }
-
-        let formStyle = {
-            width: '50%',
-            paddingRight: '10px'
-        }
-
-        let previewStyle = {
-            width: '50%'
-        }
-
-        return (
-            <Dialog ref="dlg" title="Add post" actions={actions} modal={false} onShow={this.onShow}>
-                <div style={containerStyle}>
-                    <div style={formStyle}>
-                        <TextField ref="titleField" fullWidth={true} hintText="post title" value={this.state.title} onChange={this.onChangeTitle}/>
-                        <TextField ref="descriptionField" style={descriptionFieldStyle} fullWidth={true} hintText="post description" multiLine={true} value={this.state.description} onChange={this.onChangeDescription}/>
-                    </div>
-                    <Card style={previewStyle}>
-                        <CardTitle title={this.state.title}/>
-                        <CardText className="themis-post" dangerouslySetInnerHTML={{__html: md.render(this.state.description)}}/>
-                    </Card>
-                </div>
-            </Dialog>
-        )
-    }
+    return (
+      <Dialog ref='dlg' title='Add post' actions={actions} modal={false} onShow={this.onShow}>
+        <div style={containerStyle}>
+          <div style={formStyle}>
+            <TextField ref='titleField' fullWidth hintText='post title' value={this.state.title} onChange={this.onChangeTitle} />
+            <TextField ref='descriptionField' style={descriptionFieldStyle} fullWidth hintText='post description' multiLine value={this.state.description} onChange={this.onChangeDescription} />
+          </div>
+          <Card style={previewStyle}>
+            <CardTitle title={this.state.title} />
+            <CardText className='themis-post' dangerouslySetInnerHTML={{__html: md.render(this.state.description)}} />
+          </Card>
+        </div>
+      </Dialog>
+    )
+  }
 }
