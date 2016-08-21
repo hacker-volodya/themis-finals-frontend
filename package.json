@@ -27,10 +27,11 @@
   "dependencies": {
     "alt": "^0.18.5",
     "array.prototype.find": "^2.0.0",
+    "fbjs": "^0.2.1",
     "immutable": "^3.8.1",
     "markdown-it": "^7.0.1",
     "markdown-it-emoji": "^1.2.0",
-    "material-ui": "0.12.4",
+    "material-ui": "^0.12.4",
     "moment": "^2.14.1",
     "numeral": "^1.5.3",
     "react": "0.14.0",
