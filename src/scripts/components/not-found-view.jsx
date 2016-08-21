@@ -10,15 +10,9 @@ export default class NotFoundView extends React.Component {
     this.getOnNavigate = this.getOnNavigate.bind(this)
   }
 
-  static get contextTypes () {
-    return {
-      router: React.PropTypes.func
-    }
-  }
-
   getOnNavigate (route) {
     return () => {
-      this.context.router.transitionTo(route)
+      this.props.history.pushState(null, route)
     }
   }
 
@@ -37,13 +31,13 @@ export default class NotFoundView extends React.Component {
     }
 
     let links = [
-      <li key={0}><a href='/' onTouchTap={this.getOnNavigate('index')}>Main page</a></li>,
-      <li key={1}><a href='/scoreboard' onTouchTap={this.getOnNavigate('scoreboard')}>Scoreboard</a></li>,
-      <li key={2}><a href='/news' onTouchTap={this.getOnNavigate('news')}>News</a></li>
+      <li key={0}><a href='/' onTouchTap={this.getOnNavigate('/')}>Main page</a></li>,
+      <li key={1}><a href='/scoreboard' onTouchTap={this.getOnNavigate('/scoreboard')}>Scoreboard</a></li>,
+      <li key={2}><a href='/news' onTouchTap={this.getOnNavigate('/news')}>News</a></li>
     ]
 
     if (this.props.identity.isInternal()) {
-      links.push(<li key={3}><a href='/logs' onTouchTap={this.getOnNavigate('logs')}>Logs</a></li>)
+      links.push(<li key={3}><a href='/logs' onTouchTap={this.getOnNavigate('/logs')}>Logs</a></li>)
     }
 
     let title = `${Customize.contestTitle} :: Not Found`

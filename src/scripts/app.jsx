@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Router, { Route, DefaultRoute, NotFoundRoute, RouteHandler, HistoryLocation } from 'react-router'
+import { Router, Route, IndexRoute } from 'react-router'
 import DocumentTitle from 'react-document-title'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import mui from 'material-ui'
@@ -17,6 +17,11 @@ import dataManager from './data-manager'
 
 import Customize from '../../customize'
 
+import createBrowserHistory from 'history/lib/createBrowserHistory'
+
+let clientHistory = createBrowserHistory()
+let clientIdentity = null
+
 const ThemeManager = mui.Styles.ThemeManager
 let DefaultRawTheme = mui.Styles.LightRawTheme
 
@@ -28,12 +33,6 @@ class App extends React.Component {
     super()
     this.onTabActivate = this.onTabActivate.bind(this)
     this.onNavigateMain = this.onNavigateMain.bind(this)
-  }
-
-  static get contextTypes () {
-    return {
-      router: React.PropTypes.func
-    }
   }
 
   static get childContextTypes () {
@@ -49,22 +48,22 @@ class App extends React.Component {
   }
 
   onTabActivate (activeTab) {
-    this.context.router.transitionTo(activeTab.props.route)
+    this.props.history.pushState(null, activeTab.props.route)
   }
 
   onNavigateMain () {
-    this.context.router.transitionTo('index')
+    this.props.history.pushState(null, '/')
   }
 
   render () {
     let selectedTab = 'notfound'
-    let routeNames = ['index', 'scoreboard', 'news']
-    if (this.props.identity.isInternal()) {
-      routeNames.push('logs')
+    let routeNames = ['/scoreboard', '/news']
+    if (clientIdentity.isInternal()) {
+      routeNames.push('/logs')
     }
 
     for (let routeName of routeNames) {
-      if (this.context.router.isActive(routeName, '', '')) {
+      if (this.props.history.isActive(routeName)) {
         selectedTab = routeName
         break
       }
@@ -113,12 +112,12 @@ class App extends React.Component {
     }
 
     let tabs = [
-      <Tab style={tabStyle} key='scoreboard' label='Scoreboard' route='scoreboard' value='scoreboard' onActive={this.onTabActivate} />,
-      <Tab style={tabStyle} key='news' label='News' route='news' value='news' onActive={this.onTabActivate} />
+      <Tab style={tabStyle} key='scoreboard' label='Scoreboard' route='/scoreboard' value='/scoreboard' onActive={this.onTabActivate} />,
+      <Tab style={tabStyle} key='news' label='News' route='/news' value='/news' onActive={this.onTabActivate} />
     ]
 
-    if (this.props.identity.isInternal()) {
-      tabs.push(<Tab style={tabStyle} key='logs' label='Logs' route='logs' value='logs' onActive={this.onTabActivate} />)
+    if (clientIdentity.isInternal()) {
+      tabs.push(<Tab style={tabStyle} key='logs' label='Logs' route='/logs' value='/logs' onActive={this.onTabActivate} />)
     }
 
     let footerStyle = {
@@ -165,7 +164,7 @@ class App extends React.Component {
 
           <ContestInfoBarView />
           <main>
-            <RouteHandler identity={this.props.identity} />
+            {React.cloneElement(this.props.children, { identity: clientIdentity })}
           </main>
 
           <Paper zDepth={0} rounded={false} style={footerStyle}>
@@ -186,31 +185,28 @@ function ready (callback) {
   }
 }
 
-function getRoutes (identity) {
-  return (
-    <Route handler={App}>
-      <DefaultRoute name='index' handler={IndexView} />
-      <NotFoundRoute handler={NotFoundView} />
-
-      <Route name='scoreboard' handler={ScoreboardView} />
-      <Route name='news' handler={NewsView} />
-      <Route name='logs' handler={identity.isInternal() ? LogsView : NotFoundView} />
-    </Route>
+function render () {
+  ReactDOM.render(
+    <Router history={clientHistory}>
+      <Route path='/' component={App}>
+        <IndexRoute component={IndexView} />
+        <Route path='scoreboard' component={ScoreboardView} />
+        <Route path='news' component={NewsView} />
+        <Route path='logs' component={clientIdentity.isInternal() ? LogsView : NotFoundView} />
+        <Route path='*' component={NotFoundView} />
+      </Route>
+    </Router>,
+    document.getElementById('app')
   )
-}
-
-function render (identity) {
-  Router.run(getRoutes(identity), HistoryLocation, (Root) => {
-    ReactDOM.render(<Root identity={identity} />, document.getElementById('app'))
-  })
 }
 
 ready(() => {
   dataManager
   .getIdentity()
   .then((identity) => {
+    clientIdentity = identity
     injectTapEventPlugin()
-    render(identity)
+    render()
   })
   .catch((err) => {
     console.log('Error', err)
