@@ -2,7 +2,8 @@ import React from 'react'
 import Router, { Route, DefaultRoute, NotFoundRoute, RouteHandler, HistoryLocation } from 'react-router'
 import DocumentTitle from 'react-document-title'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import mui, { Tab, Tabs, Styles, Paper } from 'material-ui'
+import mui from 'material-ui'
+import { Tab, Tabs, Styles, Paper } from 'material-ui'
 
 import IndexView from './components/index-view'
 import ScoreboardView from './components/scoreboard-view'
@@ -15,7 +16,11 @@ import dataManager from './data-manager'
 
 import Customize from '../../customize'
 
-let ThemeManager = new mui.Styles.ThemeManager()
+const ThemeManager = mui.Styles.ThemeManager
+let DefaultRawTheme = mui.Styles.LightRawTheme
+
+DefaultRawTheme.palette.primary1Color = Customize.primary1Color
+DefaultRawTheme.palette.accent1Color = Customize.accent1Color
 
 class App extends React.Component {
   constructor () {
@@ -36,16 +41,9 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount () {
-    ThemeManager.setPalette({
-      primary1Color: Customize.primary1Color,
-      accent1Color: Customize.accent1Color
-    })
-  }
-
   getChildContext () {
     return {
-      muiTheme: ThemeManager.getCurrentTheme()
+      muiTheme: ThemeManager.getMuiTheme(DefaultRawTheme)
     }
   }
 
