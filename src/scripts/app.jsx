@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import DocumentTitle from 'react-document-title'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import mui from 'material-ui'
@@ -17,9 +17,6 @@ import dataManager from './data-manager'
 
 import Customize from '../../customize'
 
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-
-let clientHistory = createBrowserHistory()
 let clientIdentity = null
 
 const ThemeManager = mui.Styles.ThemeManager
@@ -35,6 +32,12 @@ class App extends React.Component {
     this.onNavigateMain = this.onNavigateMain.bind(this)
   }
 
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired
+    }
+  }
+
   static get childContextTypes () {
     return {
       muiTheme: React.PropTypes.object
@@ -48,11 +51,11 @@ class App extends React.Component {
   }
 
   onTabActivate (activeTab) {
-    this.props.history.pushState(null, activeTab.props.route)
+    this.context.router.push(activeTab.props.route)
   }
 
   onNavigateMain () {
-    this.props.history.pushState(null, '/')
+    this.context.router.push('/')
   }
 
   render () {
@@ -63,7 +66,7 @@ class App extends React.Component {
     }
 
     for (let routeName of routeNames) {
-      if (this.props.history.isActive(routeName)) {
+      if (this.context.router.isActive(routeName)) {
         selectedTab = routeName
         break
       }
@@ -187,7 +190,7 @@ function ready (callback) {
 
 function render () {
   ReactDOM.render(
-    <Router history={clientHistory}>
+    <Router history={browserHistory}>
       <Route path='/' component={App}>
         <IndexRoute component={IndexView} />
         <Route path='scoreboard' component={ScoreboardView} />

@@ -10,9 +10,15 @@ export default class NotFoundView extends React.Component {
     this.getOnNavigate = this.getOnNavigate.bind(this)
   }
 
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired
+    }
+  }
+
   getOnNavigate (route) {
     return () => {
-      this.props.history.pushState(null, route)
+      this.context.router.push(route)
     }
   }
 
