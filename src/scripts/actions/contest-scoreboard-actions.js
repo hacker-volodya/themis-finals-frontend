@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
-import alt from '../alt'
+import alt from '../utils/alt'
 import ContestScoreboardModel from '../models/contest-scoreboard-model'
 
 class ContestScoreboardActions {

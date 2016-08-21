@@ -1,23 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { withRouter } from 'react-router'
 import DocumentTitle from 'react-document-title'
-import injectTapEventPlugin from 'react-tap-event-plugin'
-import mui from 'material-ui'
-import { Tab, Tabs, Styles, Paper } from 'material-ui'
+import mui, { Tab, Tabs, Styles, Paper } from 'material-ui'
 
-import IndexView from './components/index-view'
-import ScoreboardView from './components/scoreboard-view'
-import NewsView from './components/news-view'
-import LogsView from './components/logs-view'
-import NotFoundView from './components/not-found-view'
-import ContestInfoBarView from './components/contest-info-bar-view'
+import ContestInfoBarView from './contest-info-bar-view'
 
-import dataManager from './data-manager'
-
-import Customize from '../../customize'
-
-let clientIdentity = null
+import Customize from '../../../customize'
 
 const ThemeManager = mui.Styles.ThemeManager
 let DefaultRawTheme = mui.Styles.LightRawTheme
@@ -32,7 +20,7 @@ class App extends React.Component {
     this.onNavigateMain = this.onNavigateMain.bind(this)
   }
 
-  static get contextTypes() {
+  static get contextTypes () {
     return {
       router: React.PropTypes.object.isRequired
     }
@@ -61,7 +49,7 @@ class App extends React.Component {
   render () {
     let selectedTab = 'notfound'
     let routeNames = ['/scoreboard', '/news']
-    if (clientIdentity.isInternal()) {
+    if (this.props.route.identity.isInternal()) {
       routeNames.push('/logs')
     }
 
@@ -119,7 +107,7 @@ class App extends React.Component {
       <Tab style={tabStyle} key='news' label='News' route='/news' value='/news' onActive={this.onTabActivate} />
     ]
 
-    if (clientIdentity.isInternal()) {
+    if (this.props.route.identity.isInternal()) {
       tabs.push(<Tab style={tabStyle} key='logs' label='Logs' route='/logs' value='/logs' onActive={this.onTabActivate} />)
     }
 
@@ -167,7 +155,7 @@ class App extends React.Component {
 
           <ContestInfoBarView />
           <main>
-            {React.cloneElement(this.props.children, { identity: clientIdentity })}
+            {React.cloneElement(this.props.children, { identity: this.props.route.identity })}
           </main>
 
           <Paper zDepth={0} rounded={false} style={footerStyle}>
@@ -180,38 +168,4 @@ class App extends React.Component {
   }
 }
 
-function ready (callback) {
-  if (document.readyState !== 'loading') {
-    callback()
-  } else {
-    document.addEventListener('DOMContentLoaded', callback)
-  }
-}
-
-function render () {
-  ReactDOM.render(
-    <Router history={browserHistory}>
-      <Route path='/' component={App}>
-        <IndexRoute component={IndexView} />
-        <Route path='scoreboard' component={ScoreboardView} />
-        <Route path='news' component={NewsView} />
-        <Route path='logs' component={clientIdentity.isInternal() ? LogsView : NotFoundView} />
-        <Route path='*' component={NotFoundView} />
-      </Route>
-    </Router>,
-    document.getElementById('app')
-  )
-}
-
-ready(() => {
-  dataManager
-  .getIdentity()
-  .then((identity) => {
-    clientIdentity = identity
-    injectTapEventPlugin()
-    render()
-  })
-  .catch((err) => {
-    console.log('Error', err)
-  })
-})
+export default withRouter(App)

@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
-import alt from '../alt'
+import alt from '../utils/alt'
 import TeamScoreModel from '../models/team-score-model'
 import { List } from 'immutable'
 

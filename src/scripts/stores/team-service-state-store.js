@@ -1,7 +1,7 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import TeamServiceStateActions from '../actions/team-service-state-actions'
 import { List } from 'immutable'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import TeamServiceStateModel from '../models/team-service-state-model'
 
 class TeamServiceStateStore {

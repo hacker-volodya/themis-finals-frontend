@@ -1,7 +1,7 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import TeamScoreActions from '../actions/team-score-actions'
 import { List } from 'immutable'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import TeamScoreModel from '../models/team-score-model'
 
 class TeamScoreStore {

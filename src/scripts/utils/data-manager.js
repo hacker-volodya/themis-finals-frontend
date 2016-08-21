@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
-import IdentityModel from './models/identity-model'
+import IdentityModel from '../models/identity-model'
 
 class DataManager {
   constructor () {

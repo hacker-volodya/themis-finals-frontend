@@ -1,6 +1,6 @@
 import React from 'react'
 import { Styles } from 'material-ui'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 
 export default class StreamStatusView extends React.Component {
   constructor (props) {

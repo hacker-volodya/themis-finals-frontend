@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
-import alt from '../alt'
+import alt from '../utils/alt'
 import PostModel from '../models/post-model'
 import { List } from 'immutable'
 

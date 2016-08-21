@@ -41,7 +41,7 @@
     "react-addons-update": "0.14.0",
     "react-document-title": "^2.0.2",
     "react-dom": "0.14.0",
-    "react-router": "2.0.0",
+    "react-router": "^2.7.0",
     "react-tap-event-plugin": "0.2.0",
     "string.prototype.startswith": "^0.2.0",
     "twemoji": "^2.1.0",

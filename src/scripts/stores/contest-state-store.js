@@ -1,6 +1,6 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import ContestStateActions from '../actions/contest-state-actions'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import ContestStateModel from '../models/contest-state-model'
 
 class ContestStateStore {

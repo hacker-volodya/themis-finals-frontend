@@ -17,7 +17,7 @@ var paths = {
     'src/index.html'
   ],
   scripts: [
-    'src/scripts/app.jsx'
+    'src/scripts/main.jsx'
   ],
   styles: [
     'node_modules/normalize.css/normalize.css',

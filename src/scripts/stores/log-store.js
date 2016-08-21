@@ -1,7 +1,7 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import LogActions from '../actions/log-actions'
 import { List } from 'immutable'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import LogModel from '../models/log-model'
 
 class LogStore {

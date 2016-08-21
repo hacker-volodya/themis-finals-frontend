@@ -1,7 +1,7 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import TeamAttackActions from '../actions/team-attack-actions'
 import { List } from 'immutable'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import TeamAttackModel from '../models/team-attack-model'
 
 class TeamAttackStore {

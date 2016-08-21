@@ -1,6 +1,6 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import NewsActions from '../actions/news-actions'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import PostModel from '../models/post-model'
 import { List } from 'immutable'
 

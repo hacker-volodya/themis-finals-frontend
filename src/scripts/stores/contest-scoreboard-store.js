@@ -1,6 +1,6 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import ContestScoreboardActions from '../actions/contest-scoreboard-actions'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import ContestScoreboardModel from '../models/contest-scoreboard-model'
 
 class ContestScoreboardStore {

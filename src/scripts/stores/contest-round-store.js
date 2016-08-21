@@ -1,6 +1,6 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import ContestRoundActions from '../actions/contest-round-actions'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import ContestRoundModel from '../models/contest-round-model'
 
 class ContestRoundStore {

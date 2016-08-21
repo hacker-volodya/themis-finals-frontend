@@ -1,4 +1,4 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import ServiceActions from '../actions/service-actions'
 import { List } from 'immutable'
 

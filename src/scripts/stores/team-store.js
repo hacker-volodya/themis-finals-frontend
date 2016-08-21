@@ -1,4 +1,4 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import TeamActions from '../actions/team-actions'
 import { List } from 'immutable'
 

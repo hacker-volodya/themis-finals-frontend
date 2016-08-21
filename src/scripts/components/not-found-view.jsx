@@ -1,24 +1,19 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 import DocumentTitle from 'react-document-title'
 import { Paper, Styles } from 'material-ui'
 
 import Customize from '../../../customize'
 
-export default class NotFoundView extends React.Component {
+class NotFoundView extends React.Component {
   constructor (props) {
     super(props)
     this.getOnNavigate = this.getOnNavigate.bind(this)
   }
 
-  static get contextTypes() {
-    return {
-      router: React.PropTypes.object.isRequired
-    }
-  }
-
   getOnNavigate (route) {
     return () => {
-      this.context.router.push(route)
+      this.props.router.push(route)
     }
   }
 
@@ -62,3 +57,5 @@ export default class NotFoundView extends React.Component {
     )
   }
 }
+
+export default withRouter(NotFoundView)
