@@ -14,16 +14,10 @@ DefaultRawTheme.palette.primary1Color = Customize.primary1Color
 DefaultRawTheme.palette.accent1Color = Customize.accent1Color
 
 class App extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.onTabActivate = this.onTabActivate.bind(this)
     this.onNavigateMain = this.onNavigateMain.bind(this)
-  }
-
-  static get contextTypes () {
-    return {
-      router: React.PropTypes.object.isRequired
-    }
   }
 
   static get childContextTypes () {
@@ -39,11 +33,11 @@ class App extends React.Component {
   }
 
   onTabActivate (activeTab) {
-    this.context.router.push(activeTab.props.route)
+    this.props.router.push(activeTab.props.route)
   }
 
   onNavigateMain () {
-    this.context.router.push('/')
+    this.props.router.push('/')
   }
 
   render () {
@@ -54,7 +48,7 @@ class App extends React.Component {
     }
 
     for (let routeName of routeNames) {
-      if (this.context.router.isActive(routeName)) {
+      if (this.props.router.isActive(routeName)) {
         selectedTab = routeName
         break
       }
