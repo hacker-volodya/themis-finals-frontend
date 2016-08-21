@@ -9,19 +9,31 @@ export default class PostRemoveDialogView extends React.Component {
 
     this.onOK = this.onOK.bind(this)
     this.onCancel = this.onCancel.bind(this)
+
+    this.state = {
+      open: false
+    }
   }
 
   onCancel () {
-    this.refs.dlg.dismiss()
+    this.dismiss()
   }
 
   onOK () {
     NewsActions.remove(this.props.id)
-    this.refs.dlg.dismiss()
+    this.dismiss()
   }
 
   start () {
-    this.refs.dlg.show()
+    this.setState({
+      open: true
+    })
+  }
+
+  dismiss () {
+    this.setState({
+      open: false
+    })
   }
 
   render () {
@@ -31,7 +43,7 @@ export default class PostRemoveDialogView extends React.Component {
     ]
 
     return (
-      <Dialog ref='dlg' title='Remove post' actions={actions} modal={false}>
+      <Dialog title='Remove post' actions={actions} open={this.state.open}>
         <p>Do you really want to remove post <i>{this.props.title}</i>?</p>
       </Dialog>
     )

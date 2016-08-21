@@ -8,8 +8,6 @@ export default class PostEditDialogView extends React.Component {
   constructor (props) {
     super(props)
 
-    this.onShow = this.onShow.bind(this)
-
     this.onOK = this.onOK.bind(this)
     this.onCancel = this.onCancel.bind(this)
 
@@ -18,41 +16,44 @@ export default class PostEditDialogView extends React.Component {
 
     this.state = {
       title: this.props.title,
-      description: this.props.description
+      description: this.props.description,
+      open: false
     }
   }
 
   onCancel () {
-    this.refs.dlg.dismiss()
+    this.dismiss()
   }
 
   onOK () {
     NewsActions.edit(this.props.id, this.state.title, this.state.description)
-    this.refs.dlg.dismiss()
+    this.dismiss()
   }
 
-  onChangeTitle () {
+  onChangeTitle (event) {
     this.setState({
-      title: this.refs.titleField.getValue()
+      title: event.target.value
     })
   }
 
-  onChangeDescription () {
+  onChangeDescription (event) {
     this.setState({
-      description: this.refs.descriptionField.getValue()
+      description: event.target.value
     })
   }
 
   start () {
     this.setState({
       title: this.props.title,
-      description: this.props.description
+      description: this.props.description,
+      open: true
     })
-    this.refs.dlg.show()
   }
 
-  onShow () {
-    this.refs.titleField.focus()
+  dismiss () {
+    this.setState({
+      open: false
+    })
   }
 
   render () {
@@ -81,11 +82,11 @@ export default class PostEditDialogView extends React.Component {
     }
 
     return (
-      <Dialog ref='dlg' title='Edit post' actions={actions} modal={false} onShow={this.onShow}>
+      <Dialog title='Edit post' actions={actions} open={this.state.open}>
         <div style={containerStyle}>
           <div style={formStyle}>
-            <TextField ref='titleField' fullWidth hintText='post title' value={this.state.title} onChange={this.onChangeTitle} />
-            <TextField ref='descriptionField' style={descriptionFieldStyle} fullWidth hintText='post description' multiLine value={this.state.description} onChange={this.onChangeDescription} />
+            <TextField fullWidth autoFocus hintText='post title' value={this.state.title} onChange={this.onChangeTitle} />
+            <TextField style={descriptionFieldStyle} fullWidth hintText='post description' multiLine value={this.state.description} onChange={this.onChangeDescription} />
           </div>
           <Card style={previewStyle}>
             <CardTitle title={this.state.title} />
