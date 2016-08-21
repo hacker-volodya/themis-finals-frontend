@@ -31,28 +31,30 @@ class TeamAttackActions {
   }
 
   update (teamAttacks) {
-    this.dispatch(teamAttacks)
+    return teamAttacks
   }
 
   updateSingle (teamAttack) {
-    this.dispatch(teamAttack)
+    return teamAttack
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    TeamAttackActions
-    .fetchPromise()
-    .then((teamAttacks) => {
-      this.actions.update(teamAttacks)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      TeamAttackActions
+      .fetchPromise()
+      .then((teamAttacks) => {
+        this.update(teamAttacks)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

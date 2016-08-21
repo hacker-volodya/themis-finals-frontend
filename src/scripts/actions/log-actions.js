@@ -2,7 +2,9 @@ import alt from '../alt'
 
 class LogActions {
   push (logs) {
-    this.dispatch(logs)
+    return (dispatch) => {
+      dispatch(logs)
+    }
   }
 }
 

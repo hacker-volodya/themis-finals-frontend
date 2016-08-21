@@ -27,24 +27,26 @@ class ContestScoreboardActions {
   }
 
   update (contestScoreboard) {
-    this.dispatch(contestScoreboard)
+    return contestScoreboard
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    ContestScoreboardActions
-    .fetchPromise()
-    .then((contestScoreboard) => {
-      this.actions.update(contestScoreboard)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      ContestScoreboardActions
+      .fetchPromise()
+      .then((contestScoreboard) => {
+        this.update(contestScoreboard)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

@@ -27,24 +27,26 @@ class ContestRoundActions {
   }
 
   update (contestRound) {
-    this.dispatch(contestRound)
+    return contestRound
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    ContestRoundActions
-    .fetchPromise()
-    .then((contestRound) => {
-      this.actions.update(contestRound)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      ContestRoundActions
+      .fetchPromise()
+      .then((contestRound) => {
+        this.update(contestRound)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

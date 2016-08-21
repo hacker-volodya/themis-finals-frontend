@@ -27,24 +27,26 @@ class ContestStateActions {
   }
 
   update (contestState) {
-    this.dispatch(contestState)
+    return contestState
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    ContestStateActions
-    .fetchPromise()
-    .then((contestState) => {
-      this.actions.update(contestState)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      ContestStateActions
+      .fetchPromise()
+      .then((contestState) => {
+        this.update(contestState)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

@@ -99,72 +99,80 @@ class NewsActions {
   }
 
   update (posts) {
-    this.dispatch(posts)
+    return posts
   }
 
   onAdd (post) {
-    this.dispatch(post)
+    return post
   }
 
   onEdit (post) {
-    this.dispatch(post)
+    return post
   }
 
   onRemove (postId) {
-    this.dispatch(postId)
+    return postId
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    NewsActions
-    .fetchPromise()
-    .then((posts) => {
-      this.actions.update(posts)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      NewsActions
+      .fetchPromise()
+      .then((posts) => {
+        this.update(posts)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   add (postTitle, postDescription) {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    NewsActions
-    .addPromise(postTitle, postDescription)
-    .then(() => {
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      NewsActions
+      .addPromise(postTitle, postDescription)
+      .then(() => {
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   edit (postId, postTitle, postDescription) {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    NewsActions
-    .editPromise(postId, postTitle, postDescription)
-    .then(() => {
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      NewsActions
+      .editPromise(postId, postTitle, postDescription)
+      .then(() => {
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   remove (postId) {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    NewsActions
-    .removePromise(postId)
-    .then(() => {
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      NewsActions
+      .removePromise(postId)
+      .then(() => {
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

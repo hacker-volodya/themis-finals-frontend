@@ -31,24 +31,26 @@ class TeamActions {
   }
 
   update (teams) {
-    this.dispatch(teams)
+    return teams
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    TeamActions
-    .fetchPromise()
-    .then((teams) => {
-      this.actions.update(teams)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      TeamActions
+      .fetchPromise()
+      .then((teams) => {
+        this.update(teams)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

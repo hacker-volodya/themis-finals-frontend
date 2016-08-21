@@ -31,28 +31,30 @@ class TeamScoreActions {
   }
 
   update (teamScores) {
-    this.dispatch(teamScores)
+    return teamScores
   }
 
   updateSingle (teamScore) {
-    this.dispatch(teamScore)
+    return teamScore
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    TeamScoreActions
-    .fetchPromise()
-    .then((teamScores) => {
-      this.actions.update(teamScores)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      TeamScoreActions
+      .fetchPromise()
+      .then((teamScores) => {
+        this.update(teamScores)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 

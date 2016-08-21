@@ -31,24 +31,26 @@ class ServiceActions {
   }
 
   update (services) {
-    this.dispatch(services)
+    return services
   }
 
   fetch () {
-    this.dispatch()
+    return (dispatch) => {
+      dispatch()
 
-    ServiceActions
-    .fetchPromise()
-    .then((services) => {
-      this.actions.update(services)
-    })
-    .catch((err) => {
-      this.actions.failed(err)
-    })
+      ServiceActions
+      .fetchPromise()
+      .then((services) => {
+        this.update(services)
+      })
+      .catch((err) => {
+        this.failed(err)
+      })
+    }
   }
 
   failed (err) {
-    this.dispatch(err)
+    return err
   }
 }
 
