@@ -31,7 +31,7 @@
     "immutable": "^3.8.1",
     "markdown-it": "^7.0.1",
     "markdown-it-emoji": "^1.2.0",
-    "material-ui": "^0.13.2",
+    "material-ui": "^0.14.4",
     "moment": "^2.14.1",
     "numeral": "^1.5.3",
     "react": "0.14.0",
