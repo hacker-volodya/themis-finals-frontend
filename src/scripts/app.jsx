@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Router, { Route, DefaultRoute, NotFoundRoute, RouteHandler, HistoryLocation } from 'react-router'
 import DocumentTitle from 'react-document-title'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -200,7 +201,7 @@ function getRoutes (identity) {
 
 function render (identity) {
   Router.run(getRoutes(identity), HistoryLocation, (Root) => {
-    React.render(<Root identity={identity} />, document.getElementById('app'))
+    ReactDOM.render(<Root identity={identity} />, document.getElementById('app'))
   })
 }
 
