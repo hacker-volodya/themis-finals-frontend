@@ -1,10 +1,10 @@
-import { Styles } from 'material-ui'
+import { indigoA700, red500, white } from 'material-ui/styles/colors'
 
 export default {
   contestTitle: 'TODO: Set up contest title',
-  primary1Color: Styles.Colors.indigoA700,
-  accent1Color: Styles.Colors.red500,
-  headerColor: Styles.Colors.white,
+  primary1Color: indigoA700,
+  accent1Color: red500,
+  headerColor: white,
   indexTitle: 'TODO: Set up title',
   indexDescription: 'TODO: Set up description'
 }

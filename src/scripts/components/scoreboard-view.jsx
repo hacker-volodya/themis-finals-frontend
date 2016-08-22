@@ -1,7 +1,8 @@
 import React from 'react'
 import DocumentTitle from 'react-document-title'
-import { Paper, Styles } from 'material-ui'
-import 'array.prototype.find'
+
+import Spacing from 'material-ui/styles/spacing'
+import Paper from 'material-ui/Paper'
 
 import ScoreTableView from './score-table-view'
 
@@ -241,8 +242,8 @@ export default class ScoreboardView extends React.Component {
     let style = {
       paddingTop: '15px',
       paddingBottom: '15px',
-      paddingLeft: Styles.Spacing.desktopGutter,
-      paddingRight: Styles.Spacing.desktopGutter
+      paddingLeft: Spacing.desktopGutter,
+      paddingRight: Spacing.desktopGutter
     }
 
     let title = `${Customize.contestTitle} :: Scoreboard`

@@ -1,17 +1,26 @@
 import React from 'react'
 import { withRouter } from 'react-router'
 import DocumentTitle from 'react-document-title'
-import mui, { Tab, Tabs, Styles, Paper } from 'material-ui'
+
+import Spacing from 'material-ui/styles/spacing'
+import Typography from 'material-ui/styles/typography'
+import { grey200, grey400, grey800 } from 'material-ui/styles/colors'
 
 import ContestInfoBarView from './contest-info-bar-view'
 
 import Customize from '../../../customize'
 
-const ThemeManager = mui.Styles.ThemeManager
-let DefaultRawTheme = mui.Styles.LightRawTheme
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { Tab, Tabs } from 'material-ui/Tabs'
+import Paper from 'material-ui/Paper'
 
-DefaultRawTheme.palette.primary1Color = Customize.primary1Color
-DefaultRawTheme.palette.accent1Color = Customize.accent1Color
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: Customize.primary1Color,
+    accent1Color: Customize.accent1Color
+  }
+})
 
 class App extends React.Component {
   constructor (props) {
@@ -20,20 +29,8 @@ class App extends React.Component {
     this.onNavigateMain = this.onNavigateMain.bind(this)
   }
 
-  static get childContextTypes () {
-    return {
-      muiTheme: React.PropTypes.object
-    }
-  }
-
-  getChildContext () {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(DefaultRawTheme)
-    }
-  }
-
   onTabActivate (activeTab) {
-    this.props.router.push(activeTab.props.route)
+    this.props.router.push(activeTab.props.value)
   }
 
   onNavigateMain () {
@@ -66,7 +63,7 @@ class App extends React.Component {
 
     let containerStyles = {
       position: 'absolute',
-      right: Styles.Spacing.desktopGutter,
+      right: Spacing.desktopGutter,
       bottom: 0
     }
 
@@ -84,12 +81,12 @@ class App extends React.Component {
     let headerContainerStyle = {
       position: 'absolute',
       width: 360,
-      left: Styles.Spacing.desktopGutter
+      left: Spacing.desktopGutter
     }
 
     let spanStyle = {
       color: Customize.headerColor,
-      fontWeight: Styles.Typography.fontWeightLight,
+      fontWeight: Typography.fontWeightLight,
       top: 22,
       position: 'absolute',
       fontSize: 26,
@@ -97,17 +94,17 @@ class App extends React.Component {
     }
 
     let tabs = [
-      <Tab style={tabStyle} key='scoreboard' label='Scoreboard' route='/scoreboard' value='/scoreboard' onActive={this.onTabActivate} />,
-      <Tab style={tabStyle} key='news' label='News' route='/news' value='/news' onActive={this.onTabActivate} />
+      <Tab style={tabStyle} key='scoreboard' label='Scoreboard' value='/scoreboard' onActive={this.onTabActivate} />,
+      <Tab style={tabStyle} key='news' label='News' value='/news' onActive={this.onTabActivate} />
     ]
 
     if (this.props.route.identity.isInternal()) {
-      tabs.push(<Tab style={tabStyle} key='logs' label='Logs' route='/logs' value='/logs' onActive={this.onTabActivate} />)
+      tabs.push(<Tab style={tabStyle} key='logs' label='Logs' value='/logs' onActive={this.onTabActivate} />)
     }
 
     let footerStyle = {
-      backgroundColor: Styles.Colors.grey800,
-      color: Styles.Colors.grey400,
+      backgroundColor: grey800,
+      color: grey400,
       position: 'absolute',
       bottom: 0,
       height: '85px',
@@ -117,7 +114,7 @@ class App extends React.Component {
     }
 
     let linkStyle = {
-      color: Styles.Colors.grey200,
+      color: grey200,
       textDecoration: 'none'
     }
 
@@ -125,39 +122,41 @@ class App extends React.Component {
     let logo = Customize.contestLogo
 
     return (
-      <DocumentTitle title={title}>
-        <section>
-          <Paper zDepth={0} rounded={false} style={rootStyles}>
-            <div style={headerContainerStyle}>
-              {
-                (() => {
-                  if (logo && logo.dist && logo.style) {
-                    return <img src={logo.dist} style={logo.style} />
-                  } else {
-                    return null
-                  }
-                })()
-              }
-              <a style={spanStyle} onTouchTap={this.onNavigateMain}>{title}</a>
-            </div>
-            <div style={containerStyles}>
-              <Tabs value={selectedTab} style={tabsStyles}>
-                {tabs}
-              </Tabs>
-            </div>
-          </Paper>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <DocumentTitle title={title}>
+          <section>
+            <Paper zDepth={0} rounded={false} style={rootStyles}>
+              <div style={headerContainerStyle}>
+                {
+                  (() => {
+                    if (logo && logo.dist && logo.style) {
+                      return <img src={logo.dist} style={logo.style} />
+                    } else {
+                      return null
+                    }
+                  })()
+                }
+                <a style={spanStyle} onTouchTap={this.onNavigateMain}>{title}</a>
+              </div>
+              <div style={containerStyles}>
+                <Tabs value={selectedTab} style={tabsStyles}>
+                  {tabs}
+                </Tabs>
+              </div>
+            </Paper>
 
-          <ContestInfoBarView />
-          <main>
-            {React.cloneElement(this.props.children, { identity: this.props.route.identity })}
-          </main>
+            <ContestInfoBarView />
+            <main>
+              {React.cloneElement(this.props.children, { identity: this.props.route.identity })}
+            </main>
 
-          <Paper zDepth={0} rounded={false} style={footerStyle}>
-            <p>&copy; {(new Date()).getFullYear()} <a href='https://github.com/aspyatkin' target='_blank' style={linkStyle}>Alexander Pyatkin</a>. Crafted in Samara, Russia.</p>
-            <p>Find this on <a href='https://github.com/aspyatkin/themis-finals' target='_blank' style={linkStyle}>GitHub</a></p>
-          </Paper>
-        </section>
-      </DocumentTitle>
+            <Paper zDepth={0} rounded={false} style={footerStyle}>
+              <p>&copy; {(new Date()).getFullYear()} <a href='https://github.com/aspyatkin' target='_blank' style={linkStyle}>Alexander Pyatkin</a>. Crafted in Samara, Russia.</p>
+              <p>Find this on <a href='https://github.com/aspyatkin/themis-finals' target='_blank' style={linkStyle}>GitHub</a></p>
+            </Paper>
+          </section>
+        </DocumentTitle>
+      </MuiThemeProvider>
     )
   }
 }

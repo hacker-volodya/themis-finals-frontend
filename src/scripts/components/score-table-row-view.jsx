@@ -1,5 +1,4 @@
 import React from 'react'
-import 'string.prototype.startswith'
 
 import ScoreTablePositionCellView from './score-table-position-cell-view'
 import ScoreTableServiceStateCellView from './score-table-service-state-cell-view'
@@ -14,7 +13,7 @@ export default class ScoreTableRowView extends React.Component {
 
       if (column === 'position') {
         return <ScoreTablePositionCellView key={ndx} value={value} />
-      } else if (column.startsWith('#service_')) {
+      } else if (column.lastIndexOf('#service_') === 0) {
         return <ScoreTableServiceStateCellView key={ndx} value={value} />
       } else if (column === 'score') {
         return <ScoreTableTotalScoreCellView key={ndx} value={value} lastAttack={this.props.data.lastAttack} live={this.props.live} />

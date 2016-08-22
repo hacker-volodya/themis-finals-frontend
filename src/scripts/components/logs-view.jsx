@@ -1,6 +1,7 @@
 import React from 'react'
 import DocumentTitle from 'react-document-title'
-import { Paper, Styles } from 'material-ui'
+import Paper from 'material-ui/Paper'
+import Spacing from 'material-ui/styles/spacing'
 
 import LogStore from '../stores/log-store'
 
@@ -82,8 +83,8 @@ export default class LogsView extends React.Component {
     let style = {
       paddingTop: '15px',
       paddingBottom: '15px',
-      paddingLeft: Styles.Spacing.desktopGutter,
-      paddingRight: Styles.Spacing.desktopGutter
+      paddingLeft: Spacing.desktopGutter,
+      paddingRight: Spacing.desktopGutter
     }
 
     let title = `${Customize.contestTitle} :: Logs`

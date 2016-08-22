@@ -1,5 +1,5 @@
 import React from 'react'
-import { Styles } from 'material-ui'
+import { deepOrange50, deepOrange500, yellow50, yellow800, green50, green700, red50, red600, grey100, grey600 } from 'material-ui/styles/colors'
 import eventManager from '../utils/event-manager'
 
 export default class StreamStatusView extends React.Component {
@@ -38,28 +38,28 @@ export default class StreamStatusView extends React.Component {
     switch (this.state.readyState) {
       case -1:
         text = 'not supported'
-        style.color = Styles.Colors.deepOrange500
-        style.backgroundColor = Styles.Colors.deepOrange50
+        style.color = deepOrange500
+        style.backgroundColor = deepOrange50
         break
       case 0:
         text = 'connecting'
-        style.color = Styles.Colors.yellow800
-        style.backgroundColor = Styles.Colors.yellow50
+        style.color = yellow800
+        style.backgroundColor = yellow50
         break
       case 1:
         text = 'connected'
-        style.color = Styles.Colors.green700
-        style.backgroundColor = Styles.Colors.green50
+        style.color = green700
+        style.backgroundColor = green50
         break
       case 2:
         text = 'closed'
-        style.color = Styles.Colors.red600
-        style.backgroundColor = Styles.Colors.red50
+        style.color = red600
+        style.backgroundColor = red50
         break
       default:
         text = 'n/a'
-        style.color = Styles.Colors.grey600
-        style.backgroundColor = Styles.Colors.grey100
+        style.color = grey600
+        style.backgroundColor = grey100
         break
     }
     return <span style={style}>{`Stream: ${text}`}</span>

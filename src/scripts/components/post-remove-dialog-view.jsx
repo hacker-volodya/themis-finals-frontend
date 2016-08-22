@@ -1,5 +1,7 @@
 import React from 'react'
-import { Dialog, FlatButton } from 'material-ui'
+
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
 import NewsActions from '../actions/news-actions'
 

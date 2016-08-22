@@ -1,5 +1,7 @@
 import React from 'react'
-import { Card, CardText, CardActions, FlatButton, CardTitle } from 'material-ui'
+
+import FlatButton from 'material-ui/FlatButton'
+import Card, { CardText, CardActions, CardTitle } from 'material-ui/Card'
 
 import MarkdownRenderer from '../utils/markdown'
 import moment from 'moment'

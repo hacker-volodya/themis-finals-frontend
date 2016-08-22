@@ -1,5 +1,5 @@
 import React from 'react'
-import { Styles } from 'material-ui'
+import { blueGrey50, blueGrey600 } from 'material-ui/styles/colors'
 
 import ContestRoundStore from '../stores/contest-round-store'
 import ContestRoundActions from '../actions/contest-round-actions'
@@ -41,8 +41,8 @@ export default class ContestRoundView extends React.Component {
     let style = {
       padding: '4px 8px',
       marginRight: '10px',
-      color: Styles.Colors.blueGrey600,
-      backgroundColor: Styles.Colors.blueGrey50
+      color: blueGrey600,
+      backgroundColor: blueGrey50
     }
 
     return <span style={style}>{`Round ${this.state.model.value}`}</span>

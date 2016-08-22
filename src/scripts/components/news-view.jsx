@@ -1,6 +1,9 @@
 import React from 'react'
 import DocumentTitle from 'react-document-title'
-import { RaisedButton, Paper, Styles } from 'material-ui'
+
+import Spacing from 'material-ui/styles/spacing'
+import RaisedButton from 'material-ui/RaisedButton'
+import Paper from 'material-ui/Paper'
 
 import PostListView from './post-list-view'
 import NewsStore from '../stores/news-store'
@@ -38,8 +41,8 @@ export default class NewsView extends React.Component {
     let style = {
       paddingTop: '15px',
       paddingBottom: '15px',
-      paddingLeft: Styles.Spacing.desktopGutter,
-      paddingRight: Styles.Spacing.desktopGutter
+      paddingLeft: Spacing.desktopGutter,
+      paddingRight: Spacing.desktopGutter
     }
 
     let controlAreaStyle = {

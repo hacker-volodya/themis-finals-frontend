@@ -1,5 +1,9 @@
 import React from 'react'
-import { Dialog, FlatButton, TextField, Card, CardTitle, CardText } from 'material-ui'
+
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+import Card, { CardTitle, CardText } from 'material-ui/Card'
 
 import NewsActions from '../actions/news-actions'
 import MarkdownRenderer from '../utils/markdown'
