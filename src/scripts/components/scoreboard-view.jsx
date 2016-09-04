@@ -12,17 +12,11 @@ import TeamStore from '../stores/team-store'
 import ServiceActions from '../actions/service-actions'
 import ServiceStore from '../stores/service-store'
 
-import TeamScoreActions from '../actions/team-score-actions'
-import TeamScoreStore from '../stores/team-score-store'
-
 import TeamServiceStateActions from '../actions/team-service-state-actions'
 import TeamServiceStateStore from '../stores/team-service-state-store'
 
-import TeamAttackActions from '../actions/team-attack-actions'
-import TeamAttackStore from '../stores/team-attack-store'
-
-import ContestScoreboardActions from '../actions/contest-scoreboard-actions'
-import ContestScoreboardStore from '../stores/contest-scoreboard-store'
+import ScoreboardActions from '../actions/scoreboard-actions'
+import ScoreboardStore from '../stores/scoreboard-store'
 
 import Customize from '../../../customize'
 
@@ -32,18 +26,14 @@ export default class ScoreboardView extends React.Component {
     this.state = {
       teams: TeamStore.getState(),
       services: ServiceStore.getState(),
-      teamScores: TeamScoreStore.getState(),
       teamServiceStates: TeamServiceStateStore.getState(),
-      teamAttacks: TeamAttackStore.getState(),
-      contestScoreboard: ContestScoreboardStore.getState()
+      scoreboard: ScoreboardStore.getState()
     }
 
     this.onUpdateTeams = this.onUpdateTeams.bind(this)
     this.onUpdateServices = this.onUpdateServices.bind(this)
-    this.onUpdateTeamScores = this.onUpdateTeamScores.bind(this)
     this.onUpdateTeamServiceStates = this.onUpdateTeamServiceStates.bind(this)
-    this.onUpdateTeamAttacks = this.onUpdateTeamAttacks.bind(this)
-    this.onUpdateContestScoreboard = this.onUpdateContestScoreboard.bind(this)
+    this.onUpdateScoreboard = this.onUpdateScoreboard.bind(this)
   }
 
   onUpdateTeams (teams) {
@@ -58,35 +48,23 @@ export default class ScoreboardView extends React.Component {
     })
   }
 
-  onUpdateTeamScores (teamScores) {
-    this.setState({
-      teamScores: teamScores
-    })
-  }
-
   onUpdateTeamServiceStates (teamServiceStates) {
     this.setState({
       teamServiceStates: teamServiceStates
     })
   }
 
-  onUpdateTeamAttacks (teamAttacks) {
+  onUpdateScoreboard (scoreboard) {
     this.setState({
-      teamAttacks: teamAttacks
+      scoreboard: scoreboard
     })
   }
 
-  onUpdateContestScoreboard (contestScoreboard) {
-    this.setState({
-      contestScoreboard: contestScoreboard
-    })
-  }
-
-  calculateScoreboard () {
+  calculateTable () {
     let order = [
       'position',
       'team',
-      'score',
+      'totalRelative',
       'attack',
       'defence'
     ]
@@ -94,7 +72,7 @@ export default class ScoreboardView extends React.Component {
     let headers = {
       position: '#',
       team: 'Team',
-      score: 'Score',
+      totalRelative: 'Score',
       attack: 'Attack',
       defence: 'Defence'
     }
@@ -107,42 +85,20 @@ export default class ScoreboardView extends React.Component {
 
     let rowData = []
 
-    let maxAttackPoints = 0
-    let maxDefencePoints = 0
-
-    for (let teamScore of this.state.teamScores.collection) {
-      if (teamScore.attackPoints > maxAttackPoints) {
-        maxAttackPoints = teamScore.attackPoints
-      }
-      if (teamScore.defencePoints > maxDefencePoints) {
-        maxDefencePoints = teamScore.defencePoints
-      }
-    }
-
-    for (let team of this.state.teams.collection) {
-      let teamScore = this.state.teamScores.collection.find((score) => {
-        return score.teamId === team.id
+    for (let position of this.state.scoreboard.model.positions) {
+      let team = this.state.teams.collection.find((team) => {
+        return position.teamId === team.id
       })
-
-      let teamAttack = this.state.teamAttacks.collection.find((attack) => {
-        return attack.teamId === team.id
-      })
-
-      let attackPoints = teamScore ? teamScore.attackPoints : 0
-      let defencePoints = teamScore ? teamScore.defencePoints : 0
-
-      let attackScore = (maxAttackPoints < 0.00001) ? 0 : attackPoints / maxAttackPoints
-      let defenceScore = (maxDefencePoints < 0.00001) ? 0 : defencePoints / maxDefencePoints
 
       let row = {
         id: team.id,
         team: team.name,
-        score: 0.5 * (attackScore + defenceScore),
-        attackPoints: attackPoints,
-        defencePoints: defencePoints,
-        attackScore: attackScore,
-        defenceScore: defenceScore,
-        lastAttack: teamAttack ? teamAttack.occuredAt : null,
+        totalRelative: position.totalRelative,
+        attackPoints: position.attackPoints,
+        defencePoints: position.defencePoints,
+        attackRelative: position.attackRelative,
+        defenceRelative: position.defenceRelative,
+        lastAttack: position.lastAttack,
         guest: team.guest
       }
 
@@ -157,27 +113,6 @@ export default class ScoreboardView extends React.Component {
       rowData.push(row)
     }
 
-    rowData = rowData.sort((row1, row2) => {
-      let score1 = row1.score
-      let score2 = row2.score
-      if (Math.abs(score1 - score2) < 0.00001) {
-        let attack1 = row1.lastAttack
-        let attack2 = row2.lastAttack
-
-        // == used intentionally
-        if (attack1 == null && attack2 == null) {
-          return 0
-        } else if (attack1 == null && attack2 != null) {
-          return 1
-        } else if (attack2 == null && attack1 != null) {
-          return -1
-        } else {
-          return attack1.getTime() - attack2.getTime()
-        }
-      }
-      return score2 - score1
-    })
-
     let rows = rowData.map((row, ndx) => {
       row['position'] = ndx + 1
       return row
@@ -187,43 +122,35 @@ export default class ScoreboardView extends React.Component {
       order: order,
       rows: rows,
       headers: headers,
-      live: this.props.identity.isInternal() || this.state.contestScoreboard.model.enabled
+      muted: this.state.scoreboard.model.muted
     }
   }
 
   componentDidMount () {
     TeamStore.listen(this.onUpdateTeams)
     ServiceStore.listen(this.onUpdateServices)
-    TeamScoreStore.listen(this.onUpdateTeamScores)
     TeamServiceStateStore.listen(this.onUpdateTeamServiceStates)
-    TeamAttackStore.listen(this.onUpdateTeamAttacks)
-    ContestScoreboardStore.listen(this.onUpdateContestScoreboard)
+    ScoreboardStore.listen(this.onUpdateScoreboard)
 
     TeamActions.fetch()
     ServiceActions.fetch()
-    TeamScoreActions.fetch()
     TeamServiceStateActions.fetch()
-    TeamAttackActions.fetch()
-    ContestScoreboardActions.fetch()
+    ScoreboardActions.fetch()
   }
 
   componentWillUnmount () {
     TeamStore.unlisten(this.onUpdateTeams)
     ServiceStore.unlisten(this.onUpdateServices)
-    TeamScoreStore.unlisten(this.onUpdateTeamScores)
     TeamServiceStateStore.unlisten(this.onUpdateTeamServiceStates)
-    TeamAttackStore.unlisten(this.onUpdateTeamAttacks)
-    ContestScoreboardStore.unlisten(this.onUpdateContestScoreboard)
+    ScoreboardStore.unlisten(this.onUpdateScoreboard)
   }
 
   isLoading () {
     return (
       this.state.teams.loading ||
       this.state.services.loading ||
-      this.state.teamScores.loading ||
       this.state.teamServiceStates.loading ||
-      this.state.teamAttacks.loading ||
-      this.state.contestScoreboard.loading
+      this.state.scoreboard.loading
     )
   }
 
@@ -231,10 +158,8 @@ export default class ScoreboardView extends React.Component {
     return (
       this.state.teams.err ||
       this.state.services.err ||
-      this.state.teamScores.err ||
       this.state.teamServiceStates.err ||
-      this.state.teamAttacks.err ||
-      this.state.contestScoreboard.err
+      this.state.scoreboard.err
     )
   }
 
@@ -262,7 +187,7 @@ export default class ScoreboardView extends React.Component {
                 return <p>Failed to fetch scoreboard data</p>
               }
 
-              return <ScoreTableView identity={this.props.identity} scoreboard={this.calculateScoreboard()} />
+              return <ScoreTableView identity={this.props.identity} table={this.calculateTable()} />
             })()
           }
         </Paper>

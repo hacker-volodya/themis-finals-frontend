@@ -2,13 +2,12 @@ import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
 import alt from '../utils/alt'
-import TeamScoreModel from '../models/team-score-model'
-import { List } from 'immutable'
+import ScoreboardModel from '../models/scoreboard-model'
 
-class TeamScoreActions {
+class ScoreboardActions {
   static fetchPromise () {
     return new Promise((resolve, reject) => {
-      fetch('/api/team/scores')
+      fetch('/api/scoreboard')
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           return response.json()
@@ -19,10 +18,7 @@ class TeamScoreActions {
         }
       })
       .then((data) => {
-        let teamScores = data.map((props) => {
-          return new TeamScoreModel(props)
-        })
-        resolve(new List(teamScores))
+        resolve(new ScoreboardModel(data))
       })
       .catch((err) => {
         reject(err)
@@ -30,22 +26,18 @@ class TeamScoreActions {
     })
   }
 
-  update (teamScores) {
-    return teamScores
-  }
-
-  updateSingle (teamScore) {
-    return teamScore
+  update (scoreboard) {
+    return scoreboard
   }
 
   fetch () {
     return (dispatch) => {
       dispatch()
 
-      TeamScoreActions
+      ScoreboardActions
       .fetchPromise()
-      .then((teamScores) => {
-        this.update(teamScores)
+      .then((scoreboard) => {
+        this.update(scoreboard)
       })
       .catch((err) => {
         this.failed(err)
@@ -58,4 +50,4 @@ class TeamScoreActions {
   }
 }
 
-export default alt.createActions(TeamScoreActions)
+export default alt.createActions(ScoreboardActions)

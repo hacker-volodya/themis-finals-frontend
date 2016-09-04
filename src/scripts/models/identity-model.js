@@ -16,7 +16,7 @@ export default class IdentityModel {
     return this.name === 'internal'
   }
 
-  isOther () {
-    return this.name === 'other'
+  isExternal () {
+    return this.name === 'external'
   }
 }
