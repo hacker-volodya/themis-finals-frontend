@@ -66,6 +66,7 @@ export default class ScoreboardView extends React.Component {
       'team',
       'totalRelative',
       'attack',
+      'availability',
       'defence'
     ]
 
@@ -74,6 +75,7 @@ export default class ScoreboardView extends React.Component {
       team: 'Team',
       totalRelative: 'Score',
       attack: 'Attack',
+      availability: 'Availability',
       defence: 'Defence'
     }
 
@@ -95,8 +97,10 @@ export default class ScoreboardView extends React.Component {
         team: team.name,
         totalRelative: position.totalRelative,
         attackPoints: position.attackPoints,
+        availabilityPoints: position.availabilityPoints,
         defencePoints: position.defencePoints,
         attackRelative: position.attackRelative,
+        availabilityRelative: position.availabilityRelative,
         defenceRelative: position.defenceRelative,
         lastAttack: position.lastAttack,
         guest: team.guest
