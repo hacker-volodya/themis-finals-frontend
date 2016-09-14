@@ -80,7 +80,7 @@ class App extends React.Component {
 
     let headerContainerStyle = {
       position: 'absolute',
-      width: 360,
+      width: 400,
       left: Spacing.desktopGutter
     }
 
