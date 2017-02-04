@@ -1,10 +1,10 @@
 import { Styles } from 'material-ui'
 
 export default {
-    contestTitle: 'TODO: Set up contest title',
-    primary1Color: Styles.Colors.indigoA700,
+    contestTitle: 'SiBears Classic CTF Training',
+    primary1Color: Styles.Colors.red500,
     accent1Color: Styles.Colors.red500,
     headerColor: Styles.Colors.white,
-    indexTitle: 'TODO: Set up title',
-    indexDescription: 'TODO: Set up description'
+    indexTitle: 'SiBears Classic CTF Training',
+    indexDescription: 'Welcome to training scoreboard'
 }
